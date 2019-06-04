@@ -27,6 +27,6 @@ public class HomeAdminFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         tv_Home = (TextView) view.findViewById(R.id.tv_home);
-        tv_Home.setText("Hurrah");
+        
     }
 }
