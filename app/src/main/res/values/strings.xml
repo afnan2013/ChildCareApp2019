@@ -45,4 +45,13 @@
     <string name="m_type_authen">Account Authentication</string>
     <string name="m_verify">Verify Accounts</string>
     <string name="m_all_accounts">All Accounts</string>
+
+    <!--Add a Child Fragment -->
+    <string name="fullname">Full name</string>
+    <string name="nickname">Nick name</string>
+    <string name="age">Age</string>
+    <string name="nationality">Nationality</string>
+    <string name="religion">Religion</string>
+    <string name="fatheremail">Fathers email</string>
+    <string name="motheremail">Mothers email</string>
 </resources>

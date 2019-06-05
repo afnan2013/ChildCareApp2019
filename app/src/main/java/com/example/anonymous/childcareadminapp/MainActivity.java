@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference myref;
     Button btn_Signout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

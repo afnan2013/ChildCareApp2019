@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+
             finish();
         }
 
