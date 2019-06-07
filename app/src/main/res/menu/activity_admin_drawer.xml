@@ -13,8 +13,12 @@
             android:icon="@drawable/ic_profile"
             android:title="@string/m_profile" />
         <item
+            android:id="@+id/nav_entry"
+            android:icon="@drawable/ic_entry"
+            android:title="@string/m_entry_child" />
+        <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_about"
             android:title="@string/m_about" />
     </group>
 

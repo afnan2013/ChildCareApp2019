@@ -79,7 +79,9 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             fragment = new HomeAdminFragment();
         } else if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_entry) {
+            fragment = new EntryChildAdminFragment();
+        } else if(id == R.id.nav_about){
 
         } else if (id == R.id.nav_add_child) {
             fragment = new AddChildAdminFragment();

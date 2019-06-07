@@ -29,7 +29,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AdminActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

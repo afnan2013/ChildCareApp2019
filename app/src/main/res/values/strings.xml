@@ -41,6 +41,7 @@
     <string name="m_home">Home</string>
     <string name="m_profile">Profile</string>
     <string name="m_add_child">Add a Child</string>
+    <string name="m_entry_child">Entry Child</string>
     <string name="m_about">About</string>
     <string name="m_type_authen">Account Authentication</string>
     <string name="m_verify">Verify Accounts</string>

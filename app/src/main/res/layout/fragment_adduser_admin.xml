@@ -24,7 +24,7 @@
         android:contentDescription=""
         android:src="@mipmap/ic_launcher"
         tools:ignore="ContentDescription"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/progressBar2"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -36,9 +36,8 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/progressBar2"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/et_nickname_child"
+        android:layout_toEndOf="@+id/progressBar2" />
 
     <EditText
         android:id="@+id/et_nickname_child"
@@ -49,8 +48,8 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_below="@+id/et_fullname_child"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/et_age_child"
+        android:layout_toEndOf="@+id/progressBar2" />
 
     <EditText
         android:id="@+id/et_age_child"
@@ -124,9 +123,9 @@
         android:text="@string/action_sign_in_short"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:layout_marginBottom="29dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp" />
 
     <!-- Link to Login Screen -->
 

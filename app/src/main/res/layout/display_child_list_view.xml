@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:text="name"
+
+        android:id="@+id/tv_child_name"/>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_child_name"
+        android:gravity="center"
+        android:id="@+id/tv_child_age"
+        android:text="status"/>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_child_age"
+        android:gravity="center"
+        android:id="@+id/tv_child_religion"
+        android:text="religion"/>
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_margin="10dp"
+    >
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:text="1"
+        android:id="@+id/tv_serial"/>
+
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_serial"
+        android:gravity="center"
+        android:text="name"
+        android:id="@+id/tv_child_name"/>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_child_name"
+        android:gravity="center"
+        android:id="@+id/tv_joined_date"
+        android:text="joined date"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_joined_date"
+        android:gravity="center"
+        android:id="@+id/btn_view_child"
+        style="?android:textAppearanceButton"
+        android:text="View"/>
+
+</RelativeLayout>

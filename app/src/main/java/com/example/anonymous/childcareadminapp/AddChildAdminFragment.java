@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Anonymous on 6/4/2019.
@@ -65,6 +73,7 @@ public class AddChildAdminFragment extends Fragment {
                 String religion = et_religion.getText().toString().trim();
                 String fatheremail = et_fatheremail.getText().toString().trim();
                 String motheremail = et_motheremail.getText().toString().trim();
+                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
 
                 if (TextUtils.isEmpty(fullname)) {
@@ -104,22 +113,25 @@ public class AddChildAdminFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
 
                 Child child = new Child(fullname, nickname, age,
-                        nationality, religion, fatheremail, motheremail);
+                        nationality, religion, fatheremail, motheremail, date);
 
-                databaseReference.child("child").setValue(child)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getActivity(), "Child Registration Successful", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "Error! Check your internet connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                ;
+                String key = databaseReference.child("child").push().getKey();
+                Log.d("AddChildAdminFragment", "onClick: key :"+key);
+                if(key != null) {
+                    databaseReference.child("child").child(key).setValue(child)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getActivity(), "Child Registration Successful", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "Error! Check your internet connection", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
 
                 progressBar.setVisibility(View.GONE);
             }
