@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="80dp"
     android:layout_margin="10dp"
     >
 
@@ -15,16 +15,16 @@
 
     <TextView
         android:layout_width="140dp"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
         android:layout_toRightOf="@id/tv_serial"
         android:gravity="center"
         android:text="name"
-        android:id="@+id/tv_child_name"/>
+        android:id="@+id/tv_child_fullname"/>
 
     <TextView
-        android:layout_width="120dp"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/tv_child_name"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tv_child_fullname"
         android:gravity="center"
         android:id="@+id/tv_joined_date"
         android:text="joined date"/>
@@ -32,10 +32,22 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/tv_joined_date"
         android:gravity="center"
         android:id="@+id/btn_view_child"
         style="?android:textAppearanceButton"
-        android:text="View"/>
+        android:text="View"
+        android:layout_alignBaseline="@+id/tv_serial"
+        android:layout_alignBottom="@+id/tv_serial"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/tv_joined_date" />
+
+    <TextView
+        android:id="@+id/tv_child_id"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:text="Child Id"
+        android:layout_below="@+id/tv_child_fullname"
+        android:gravity="center"
+        android:layout_toEndOf="@+id/tv_serial" />
 
 </RelativeLayout>

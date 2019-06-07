@@ -3,4 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Child Accounts"
+        style="?android:textAppearanceLarge"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/child_list_row"
+        />
+
 </LinearLayout>

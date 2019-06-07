@@ -1,12 +1,18 @@
 package com.example.anonymous.childcareadminapp;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Anonymous on 6/5/2019.
  */
 
 public class Child {
 
-    private String Fullname, Nickname, Age, Nationality, Religion, Fatheremail, Motheremail, Date;
+    private String ChildId, Fullname, Nickname, Age, Nationality, Religion, Fatheremail, Motheremail, Date;
+    private int i;
 
     public Child (){
 
@@ -28,6 +34,35 @@ public class Child {
         this.Nickname = nickname;
         this.Age = age;
         this.Religion = religion;
+    }
+
+    public Child(String childId, String fullname, String date, int i) {
+        this.ChildId = childId;
+        this.Fullname = fullname;
+        this.Date = date;
+        this.i = i;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("fullname", this.Fullname);
+        result.put("nickname", this.Nickname);
+        result.put("age", this.Age);
+        result.put("nationality", this.Nationality);
+        result.put("religion", this.Religion);
+        result.put("date", this.Date);
+        result.put("fatheremail", this.Fatheremail);
+        result.put("motheremail", this.Motheremail);
+        return result;
+    }
+
+    public String getChildId() {
+        return ChildId;
+    }
+
+    public void setChildId(String childId) {
+        ChildId = childId;
     }
 
     public String getFullname() {
@@ -93,6 +128,17 @@ public class Child {
     public void setDate(String date) {
         Date = date;
     }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+
+
 }
 
 
