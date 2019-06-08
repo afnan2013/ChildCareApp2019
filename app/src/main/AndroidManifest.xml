@@ -3,6 +3,8 @@
     package="com.example.anonymous.childcareadminapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -30,7 +32,8 @@
         <activity
             android:name=".AdminActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DisplayChildProfileActivity"></activity>
+        <activity android:name=".DisplayChildProfileActivity" />
+        <activity android:name=".ChildIdCardActivity"></activity>
     </application>
 
 </manifest>

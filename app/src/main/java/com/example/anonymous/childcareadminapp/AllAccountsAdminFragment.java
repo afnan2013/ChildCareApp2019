@@ -1,9 +1,13 @@
 package com.example.anonymous.childcareadminapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,12 +30,12 @@ import java.util.Map;
  */
 
 public class AllAccountsAdminFragment extends Fragment {
-
-    DatabaseReference databaseReference;
-    ChildProfileAdapter childProfileAdapter;
+    public static final String TAG = "AllAccountAdminFrag";
+    private DatabaseReference databaseReference;
+    private ChildProfileAdapter childProfileAdapter;
+    private RecyclerView recyclerView;
     String childid, name,date;
-    ListView listView;
-    TextView tx_serial;
+    private List<Child> childs;
 
     @Nullable
     @Override
@@ -41,15 +47,16 @@ public class AllAccountsAdminFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listView = view.findViewById(R.id.child_list_row);
-        childProfileAdapter = new ChildProfileAdapter(getContext(), R.layout.display_child_list_row);
-        listView.setAdapter(childProfileAdapter);
+        recyclerView = view.findViewById(R.id.recycler_view_child);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //recyclerView.setHasFixedSize(true);
+
         databaseReference = FirebaseDatabase.getInstance().getReference("child");
 
-        tx_serial = view.findViewById(R.id.tv_serial);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                childs= new ArrayList<Child>();
                 int i=1;
                 Log.d("AllAccountsAdminFrag", "onDataChange: First Time All Childs : "+dataSnapshot);
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
@@ -66,17 +73,18 @@ public class AllAccountsAdminFragment extends Fragment {
                     date = data.get("date").toString();
 
                     Child child = new Child(childid, name, date, i);
-                    childProfileAdapter.add(child);
+                    childs.add(child);
                     i=i+1;
                 }
+                childProfileAdapter = new ChildProfileAdapter(getActivity(), childs);
+                recyclerView.setAdapter(childProfileAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d("AllAccountsAdmin", "onCancelled: "+databaseError);
             }
         });
 
-        
     }
 }

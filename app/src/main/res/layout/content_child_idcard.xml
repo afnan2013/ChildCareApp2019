@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ChildIdCardActivity"
+    tools:showIn="@layout/activity_child_id_card">
+
+    <RelativeLayout
+        android:id="@+id/idCardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:paddingBottom="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:id="@+id/heading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corners_heading"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="CHILD IDENTITY CARD"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/steemLogo"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:src="@drawable/steemitlogo" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/heading_layout"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp">
+
+            <ImageView
+                android:id="@+id/img_child_profile"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="40dp"
+                android:paddingLeft="10dp"
+                android:src="@android:drawable/toast_frame"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="ID"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/child_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/id_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="467890"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/child_id"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="NAME"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/child_fullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="Edet Ebenezer"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/child_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="edetebenezer"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_below="@+id/img_child_profile"
+                android:layout_alignEnd="@+id/qr_code"
+                android:layout_marginEnd="11dp" />
+
+            <TextView
+                android:id="@+id/age_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/child_fullname"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="AGE"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/child_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/age_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="05"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/father_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/child_age"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="FATHER EMAIL"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/child_father_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/father_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="father@email.com"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mother_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOTHER EMAIL"
+                android:textSize="14sp"
+                android:layout_below="@+id/child_father_email"
+                android:layout_toEndOf="@+id/img_child_profile" />
+
+            <TextView
+                android:id="@+id/chid_mother_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mother_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="mother@gmail.com"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chid_mother_email"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="DATE JOINED"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_text"
+                android:layout_toRightOf="@+id/img_child_profile"
+                android:text="12-06-2018"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/qr_code"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:src="@android:drawable/presence_busy"
+                android:layout_alignBottom="@+id/date"
+                android:layout_alignEnd="@+id/img_child_profile"
+                android:layout_alignStart="@+id/img_child_profile" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
