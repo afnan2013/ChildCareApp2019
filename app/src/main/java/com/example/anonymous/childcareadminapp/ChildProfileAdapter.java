@@ -27,6 +27,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
     public final static String TAG = "ChildProfileAdapter";
     private List<Child> childs;
     private Context c;
+    int i=1;
 
     public ChildProfileAdapter(Context c, List<Child> childs){
         this.c = c;
@@ -44,12 +45,14 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
     @Override
     public void onBindViewHolder(@NonNull ChildProfileHolder childProfileHolder, int position) {
         final Child currentNote = childs.get(position);
+
         Log.d(TAG, "onBindViewHolder: "+currentNote);
-        childProfileHolder.tx_serial.setText(String.valueOf(currentNote.getI()));
+        childProfileHolder.tx_serial.setText(String.valueOf(i));
         childProfileHolder.tx_name.setText(currentNote.getFullname());
         childProfileHolder.tx_joined_date.setText(String.valueOf(currentNote.getDate()));
         childProfileHolder.tx_childid.setText(String.valueOf(currentNote.getChildId()));
-        Log.d(TAG, "onBindViewHolder: "+currentNote.getI());
+
+        Log.d(TAG, "onBindViewHolder: "+i);
         Log.d(TAG, "onBindViewHolder: "+currentNote.getFullname());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getDate());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getChildId());
@@ -61,11 +64,12 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
 
                 Toast.makeText(c, currentNote.getChildId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(c, DisplayChildProfileActivity.class);
-                intent.putExtra("id", currentNote.getChildId());
+                intent.putExtra("child", currentNote);
                 c.startActivity(intent);
             }
         });
 
+        i = i+1;
 
     }
 

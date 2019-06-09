@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:paddingBottom="10dp"
+        android:layout_margin="5dp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true">
 
@@ -61,9 +62,9 @@
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="20dp"
                 android:paddingLeft="10dp"
-                android:src="@android:drawable/toast_frame"
+                android:src="@drawable/ic_profile"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
 
@@ -112,12 +113,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
                 android:text="edetebenezer"
                 android:textColor="#000"
                 android:textSize="15sp"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/img_child_profile"
-                android:layout_alignEnd="@+id/qr_code"
-                android:layout_marginEnd="11dp" />
+                android:layout_alignEnd="@+id/img_child_profile" />
 
             <TextView
                 android:id="@+id/age_text"
@@ -189,7 +191,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/joined_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_text"
@@ -200,14 +202,14 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/qr_code"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginRight="10dp"
+                android:id="@+id/qr_code_child"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:src="@android:drawable/presence_busy"
-                android:layout_alignBottom="@+id/date"
                 android:layout_alignEnd="@+id/img_child_profile"
-                android:layout_alignStart="@+id/img_child_profile" />
+                android:layout_alignStart="@+id/img_child_profile"
+                android:layout_below="@+id/child_nick_name" />
         </RelativeLayout>
 
     </RelativeLayout>

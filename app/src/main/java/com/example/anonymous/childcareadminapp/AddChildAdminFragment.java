@@ -74,6 +74,7 @@ public class AddChildAdminFragment extends Fragment {
                 String fatheremail = et_fatheremail.getText().toString().trim();
                 String motheremail = et_motheremail.getText().toString().trim();
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                String imageUrl = "default";
 
 
                 if (TextUtils.isEmpty(fullname)) {
@@ -113,7 +114,7 @@ public class AddChildAdminFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
 
                 Child child = new Child(fullname, nickname, age,
-                        nationality, religion, fatheremail, motheremail, date);
+                        nationality, religion, fatheremail, motheremail, date, imageUrl);
 
                 String key = databaseReference.child("child").push().getKey();
                 Log.d("AddChildAdminFragment", "onClick: key :"+key);

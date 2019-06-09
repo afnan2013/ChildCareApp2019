@@ -1,14 +1,19 @@
 package com.example.anonymous.childcareadminapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -20,58 +25,72 @@ import java.util.List;
  * Created by Anonymous on 6/6/2019.
  */
 
-public class ChildAdapter extends ArrayAdapter {
+public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildHolder> {
 
-    List list = new ArrayList();
-    public ChildAdapter(@NonNull Context context, @LayoutRes int resource) {
-        super(context, resource);
-    }
+    public final static String TAG = "ChildAdapter";
+    private List<Child> childs;
+    private Context mContext;
+    int i=1;
 
-
-    public void add(@Nullable Child object) {
-
-        super.add(object);
-        list.add(object);
-    }
-
-    @Override
-    public int getCount() {
-        return list.size();
-    }
-
-    @Nullable
-    @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public ChildAdapter(Context c, List<Child> childs){
+        this.mContext = c;
+        this.childs = childs;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View row;
-        row = convertView;
-        ChildHolder childHolder = new ChildHolder();
-        if(convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = layoutInflater.inflate(R.layout.display_child_list_view, parent,false);
-            childHolder.tx_name = (TextView) row.findViewById(R.id.tv_child_name);
-            childHolder.tx_age = (TextView) row.findViewById(R.id.tv_child_age);
-            childHolder.tx_religion = (TextView) row.findViewById(R.id.tv_child_religion);
-            row.setTag(childHolder);
-        }
-        else{
-            childHolder = (ChildHolder) row.getTag();
-        }
-
-        Child child = (Child) this.getItem(position);
-        childHolder.tx_name.setText(child.getNickname());
-        childHolder.tx_age.setText(child.getAge());
-        childHolder.tx_religion.setText(child.getReligion());
-
-        return row;
+    public ChildHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View viewItem = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.display_child_list_view, parent, false);
+        return new ChildHolder(viewItem);
     }
 
-    private static class ChildHolder{
-        TextView tx_name, tx_age, tx_religion;
+    @Override
+    public void onBindViewHolder(@NonNull ChildHolder childHolder, int position) {
+        final Child currentNote = childs.get(position);
+
+        Log.d(TAG, "onBindViewHolder: "+currentNote);
+
+        childHolder.tx_name.setText(currentNote.getFullname());
+        childHolder.tx_entry_time.setText(String.valueOf(currentNote.getDate()));
+        childHolder.tx_left_time.setText(String.valueOf(currentNote.getChildId()));
+
+        Log.d(TAG, "onBindViewHolder: "+currentNote.getFullname());
+        Log.d(TAG, "onBindViewHolder: "+currentNote.getDate());
+        Log.d(TAG, "onBindViewHolder: "+currentNote.getChildId());
+
+        childHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked on: " + currentNote.getChildId());
+
+                Toast.makeText(mContext, currentNote.getChildId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, DisplayChildProfileActivity.class);
+                intent.putExtra("child", currentNote);
+                mContext.startActivity(intent);
+            }
+        });
+
     }
+
+    @Override
+    public int getItemCount() {
+        return childs.size();
+    }
+
+    public class ChildHolder extends RecyclerView.ViewHolder {
+
+        private TextView tx_name, tx_entry_time, tx_left_time;
+        private CardView cardView;
+
+        public ChildHolder(@NonNull View itemView) {
+            super(itemView);
+            tx_name = (TextView) itemView.findViewById(R.id.tv_child_fullname);
+            tx_entry_time = (TextView) itemView.findViewById(R.id.tv_entry_time);
+            tx_left_time = (TextView) itemView.findViewById(R.id.tv_left_time);
+            cardView= (CardView) itemView.findViewById(R.id.child_list_handling_view);
+        }
+
+    }
+
 }

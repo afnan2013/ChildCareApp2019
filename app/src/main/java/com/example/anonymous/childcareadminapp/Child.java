@@ -2,6 +2,7 @@ package com.example.anonymous.childcareadminapp;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +10,17 @@ import java.util.Map;
  * Created by Anonymous on 6/5/2019.
  */
 
-public class Child {
+public class Child implements Serializable{
 
-    private String ChildId, Fullname, Nickname, Age, Nationality, Religion, Fatheremail, Motheremail, Date;
-    private int i;
+    private String ChildId, Fullname, Nickname, Age, Nationality, Religion, Fatheremail, Motheremail, Date, ImageURL;
 
     public Child (){
 
     }
 
-    public Child (String fullname, String nickname, String age, String nationality,
-                  String religion, String fatheremail, String motheremail, String date){
+    public Child (String childId, String fullname, String nickname, String age, String nationality,
+                  String religion, String fatheremail, String motheremail, String date, String imageUrl){
+        this.ChildId = childId;
         this.Fullname = fullname;
         this.Nickname = nickname;
         this.Age = age;
@@ -28,6 +29,20 @@ public class Child {
         this.Fatheremail = fatheremail;
         this.Motheremail = motheremail;
         this.Date = date;
+        this.ImageURL = imageUrl;
+    }
+
+    public Child (String fullname, String nickname, String age, String nationality,
+                  String religion, String fatheremail, String motheremail, String date, String imageUrl){
+        this.Fullname = fullname;
+        this.Nickname = nickname;
+        this.Age = age;
+        this.Nationality = nationality;
+        this.Religion = religion;
+        this.Fatheremail = fatheremail;
+        this.Motheremail = motheremail;
+        this.Date = date;
+        this.ImageURL = imageUrl;
     }
 
     public Child (String nickname, String age, String religion){
@@ -36,12 +51,6 @@ public class Child {
         this.Religion = religion;
     }
 
-    public Child(String childId, String fullname, String date, int i) {
-        this.ChildId = childId;
-        this.Fullname = fullname;
-        this.Date = date;
-        this.i = i;
-    }
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -54,7 +63,16 @@ public class Child {
         result.put("date", this.Date);
         result.put("fatheremail", this.Fatheremail);
         result.put("motheremail", this.Motheremail);
+        result.put("imageURL", this.ImageURL);
         return result;
+    }
+
+    public String getImageURL() {
+        return ImageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
     }
 
     public String getChildId() {
@@ -129,13 +147,6 @@ public class Child {
         Date = date;
     }
 
-    public int getI() {
-        return i;
-    }
-
-    public void setI(int i) {
-        this.i = i;
-    }
 
 
 

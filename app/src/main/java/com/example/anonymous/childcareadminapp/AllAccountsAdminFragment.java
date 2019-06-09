@@ -49,35 +49,36 @@ public class AllAccountsAdminFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view_child);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("child");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 childs= new ArrayList<Child>();
-                int i=1;
                 Log.d("AllAccountsAdminFrag", "onDataChange: First Time All Childs : "+dataSnapshot);
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     Log.d("AllAccountsAdminFrag", "onDataChange: First Child Id: "+snapshot);
-
+                    Child child = snapshot.getValue(Child.class);
+                    Log.d("AllAccountsAdminFrag", "onDataChange: First Child Value: "+child);
+                    /*
                     Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
-
                     Log.d("AllAccountsAdminFrag", "onDataChange: id:"+snapshot.getKey());
                     Log.d("AllAccountsAdminFrag", "onDataChange: Name:"+data.get("fullname"));
                     Log.d("AllAccountsAdminFrag", "onDataChange: Join Date:"+data.get("date"));
-
                     childid = snapshot.getKey();
                     name = data.get("fullname").toString();
                     date = data.get("date").toString();
-
                     Child child = new Child(childid, name, date, i);
+                    */
+
+                    child.setChildId(snapshot.getKey());
                     childs.add(child);
-                    i=i+1;
                 }
                 childProfileAdapter = new ChildProfileAdapter(getActivity(), childs);
                 recyclerView.setAdapter(childProfileAdapter);
+                childProfileAdapter.notifyDataSetChanged();
             }
 
             @Override
