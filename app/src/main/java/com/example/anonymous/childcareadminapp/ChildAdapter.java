@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,12 +53,15 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildHolder>
         Log.d(TAG, "onBindViewHolder: "+currentNote);
 
         childHolder.tx_name.setText(currentNote.getFullname());
-        childHolder.tx_entry_time.setText(String.valueOf(currentNote.getDate()));
-        childHolder.tx_left_time.setText(String.valueOf(currentNote.getChildId()));
+        childHolder.tx_entry_time.setText(String.valueOf(currentNote.getEntrytime()));
+        childHolder.tx_left_time.setText(String.valueOf(currentNote.getLeavetime()));
 
         Log.d(TAG, "onBindViewHolder: "+currentNote.getFullname());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getDate());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getChildId());
+
+        if(!currentNote.getStatus())
+            childHolder.img_status.setImageResource(R.drawable.ic_offline);
 
         childHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +86,14 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildHolder>
 
         private TextView tx_name, tx_entry_time, tx_left_time;
         private CardView cardView;
+        private ImageView img_status;
 
         public ChildHolder(@NonNull View itemView) {
             super(itemView);
             tx_name = (TextView) itemView.findViewById(R.id.tv_child_fullname);
             tx_entry_time = (TextView) itemView.findViewById(R.id.tv_entry_time);
             tx_left_time = (TextView) itemView.findViewById(R.id.tv_left_time);
+            img_status = (ImageView) itemView.findViewById(R.id.img_status_child);
             cardView= (CardView) itemView.findViewById(R.id.child_list_handling_view);
         }
 

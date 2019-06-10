@@ -73,7 +73,7 @@ public class AllAccountsAdminFragment extends Fragment {
                     Child child = new Child(childid, name, date, i);
                     */
 
-                    child.setChildId(snapshot.getKey());
+                    //child.setChildId(snapshot.getKey());
                     childs.add(child);
                 }
                 childProfileAdapter = new ChildProfileAdapter(getActivity(), childs);

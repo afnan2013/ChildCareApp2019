@@ -98,7 +98,7 @@ public class ChildIdCardActivity extends AppCompatActivity {
             Glide.with(this).load(child.getImageURL()).into(img_child);
         }
 
-        String QRCODE = "Name: "+child.getFullname()+" ID Number: "+child.getChildId()+" Age: "+child.getAge()+"" +
+        String QRCODE =  "ID: "+child.getChildId()+"Name: "+child.getFullname()+" Age: "+child.getAge()+"" +
                 "Father's Email "+child.getFatheremail()+"Mother's Email "+child.getMotheremail()+" Date Joined: "+child.getDate();
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();

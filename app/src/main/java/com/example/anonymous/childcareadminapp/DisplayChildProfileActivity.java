@@ -39,7 +39,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
     private final static int IMAGE_REQUSET = 1;
 
     StorageReference storageReference;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,mdatabase;
     private Uri imageUri=null;
     private StorageTask uploadTask;
 
@@ -60,6 +60,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: "+child.getChildId());
 
         storageReference = FirebaseStorage.getInstance().getReference("images/");
+        mdatabase = FirebaseDatabase.getInstance().getReference("child");
         //Toast.makeText(this, "Welcome "+child.getChildId(), Toast.LENGTH_LONG).show();
         initViews();
         btn_seeidcard.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +137,38 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
                     +"."+getFileExtension(imageUri));
             uploadTask = fileReference.putFile(imageUri);
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return fileReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        String updatedimageUrl = downloadUri.toString();
+                        //databaseReference = FirebaseDatabase.getInstance().getReference("child");
+                        mdatabase.child(child.getChildId()).child("imageURL").setValue(updatedimageUrl);
+                        Log.d(TAG, "onComplete: Download URL - "+updatedimageUrl);
+                        Toast.makeText(DisplayChildProfileActivity.this, "Upload Image Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(DisplayChildProfileActivity.this, "Upload Image Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DisplayChildProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            /*
             uploadTask.continueWith(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -160,6 +193,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
                     Toast.makeText(DisplayChildProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+            */
         }else{
             Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
         }
@@ -167,13 +201,6 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
 
 
     private void updateData(){
-
-        String mUri = child.getImageURL();
-        if(imageUri != null){
-            uploadImage();
-            mUri = updatedimageUrl;
-        }
-
         databaseReference = FirebaseDatabase.getInstance().getReference("child").child(child.getChildId());
         Child tempChild = new Child(
                 et_fullname.getText().toString(),
@@ -183,8 +210,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
                 et_religion.getText().toString(),
                 et_fatheremail.getText().toString(),
                 et_motheremail.getText().toString(),
-                child.getDate(),
-                mUri);
+                child.getDate());
         Map<String, Object> result = tempChild.toMap();
         databaseReference.updateChildren(result).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -207,8 +233,6 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
                  && data != null && data.getData() != null){
             imageUri = data.getData();
             Log.d(TAG, "onActivityResult: imageUri: "+imageUri);
-        }
-        else{
             uploadImage();
         }
     }

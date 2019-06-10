@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -64,42 +65,40 @@ public class HomeAdminFragment extends Fragment
         recyclerView = view.findViewById(R.id.recycler_child_handling_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        childs = new ArrayList<Child>();
+        childadapter = new ChildAdapter(getActivity(), childs);
+        recyclerView.setAdapter(childadapter);
 
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("child");
+        Query query = FirebaseDatabase.getInstance().getReference("entrys")
+                .orderByChild("status")
+                .equalTo(true);
+        Query query1 = FirebaseDatabase.getInstance().getReference("entrys")
+                .orderByChild("entrydate")
+                .equalTo(date);
+        query1.addValueEventListener(valueEventListener);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                childs = new ArrayList<Child>();
-                Log.d("AllAccountsAdminFrag", "onDataChange: First Time All Childs : "+dataSnapshot);
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    //Log.d("AllAccountsAdminFrag", "onDataChange: First Child Id: "+snapshot);
-                    Child child = snapshot.getValue(Child.class);
-                    //Log.d("AllAccountsAdminFrag", "onDataChange: First Child Value: "+child);
-                    /*
-                    Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
-                    Log.d("AllAccountsAdminFrag", "onDataChange: id:"+snapshot.getKey());
-                    Log.d("AllAccountsAdminFrag", "onDataChange: Name:"+data.get("fullname"));
-                    Log.d("AllAccountsAdminFrag", "onDataChange: Join Date:"+data.get("date"));
-                    childid = snapshot.getKey();
-                    name = data.get("fullname").toString();
-                    date = data.get("date").toString();
-                    Child child = new Child(childid, name, date, i);
-                    */
+        //query1.addListenerForSingleValueEvent(valueEventListener);
 
-                    child.setChildId(snapshot.getKey());
-                    childs.add(child);
-                }
-                childadapter = new ChildAdapter(getActivity(), childs);
-                recyclerView.setAdapter(childadapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("AllAccountsAdmin", "onCancelled: "+databaseError);
-            }
-        });
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            childs.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Child artist = snapshot.getValue(Child.class);
+                    childs.add(artist);
+                }
+                childadapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 }

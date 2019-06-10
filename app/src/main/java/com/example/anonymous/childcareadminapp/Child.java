@@ -5,6 +5,7 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Anonymous on 6/5/2019.
@@ -13,6 +14,8 @@ import java.util.Map;
 public class Child implements Serializable{
 
     private String ChildId, Fullname, Nickname, Age, Nationality, Religion, Fatheremail, Motheremail, Date, ImageURL;
+    private String Entrytime, Leavetime, Entryid, Entrydate;
+    private Boolean Status;
 
     public Child (){
 
@@ -33,7 +36,7 @@ public class Child implements Serializable{
     }
 
     public Child (String fullname, String nickname, String age, String nationality,
-                  String religion, String fatheremail, String motheremail, String date, String imageUrl){
+                  String religion, String fatheremail, String motheremail, String date){
         this.Fullname = fullname;
         this.Nickname = nickname;
         this.Age = age;
@@ -42,13 +45,48 @@ public class Child implements Serializable{
         this.Fatheremail = fatheremail;
         this.Motheremail = motheremail;
         this.Date = date;
-        this.ImageURL = imageUrl;
     }
 
-    public Child (String nickname, String age, String religion){
-        this.Nickname = nickname;
-        this.Age = age;
-        this.Religion = religion;
+    public String getEntrytime() {
+        return Entrytime;
+    }
+
+    public void setEntrytime(String entrytime) {
+        Entrytime = entrytime;
+    }
+
+    public String getLeavetime() {
+        return Leavetime;
+    }
+
+    public void setLeavetime(String leavetime) {
+        Leavetime = leavetime;
+    }
+
+    public String getEntryid() {
+        return Entryid;
+    }
+
+    public void setEntryid(String entryid) {
+        Entryid = entryid;
+    }
+
+    public Boolean getStatus() {
+        return Status;
+    }
+
+    public void setStatus(Boolean status) {
+        Status = status;
+    }
+
+    public Child (String childId, String fullname, String entryid, String entry_time, String leave_time, String entrydate, Boolean status){
+        this.ChildId = childId;
+        this.Fullname = fullname;
+        this.Entryid = entryid;
+        this.Entrytime = entry_time;
+        this.Leavetime = leave_time;
+        this.Entrydate = entrydate;
+        this.Status = status;
     }
 
 
@@ -63,7 +101,19 @@ public class Child implements Serializable{
         result.put("date", this.Date);
         result.put("fatheremail", this.Fatheremail);
         result.put("motheremail", this.Motheremail);
-        result.put("imageURL", this.ImageURL);
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toMapEntry(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("childId", this.ChildId);
+        result.put("fullname", this.Fullname);
+        result.put("entryid", this.Entryid);
+        result.put("entrytime", this.Entrytime);
+        result.put("leavetime", this.Leavetime);
+        result.put("entrydate", this.Entrydate);
+        result.put("status", this.Status);
         return result;
     }
 

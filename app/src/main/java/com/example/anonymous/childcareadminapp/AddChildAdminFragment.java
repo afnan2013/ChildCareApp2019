@@ -113,10 +113,11 @@ public class AddChildAdminFragment extends Fragment {
                 }
                 progressBar.setVisibility(View.VISIBLE);
 
-                Child child = new Child(fullname, nickname, age,
-                        nationality, religion, fatheremail, motheremail, date, imageUrl);
+
 
                 String key = databaseReference.child("child").push().getKey();
+                Child child = new Child(key, fullname, nickname, age,
+                        nationality, religion, fatheremail, motheremail, date, imageUrl);
                 Log.d("AddChildAdminFragment", "onClick: key :"+key);
                 if(key != null) {
                     databaseReference.child("child").child(key).setValue(child)
