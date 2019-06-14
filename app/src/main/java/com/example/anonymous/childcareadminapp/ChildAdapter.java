@@ -68,8 +68,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildHolder>
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + currentNote.getChildId());
 
-                Toast.makeText(mContext, currentNote.getChildId(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, DisplayChildProfileActivity.class);
+                //Toast.makeText(mContext, currentNote.getChildId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ChildCareActivity.class);
                 intent.putExtra("child", currentNote);
                 mContext.startActivity(intent);
             }

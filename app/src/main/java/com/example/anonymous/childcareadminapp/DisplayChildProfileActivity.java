@@ -1,11 +1,8 @@
 package com.example.anonymous.childcareadminapp;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.Tag;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +36,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
     private final static int IMAGE_REQUSET = 1;
 
     StorageReference storageReference;
-    DatabaseReference databaseReference,mdatabase;
+    DatabaseReference databaseReference, mdatabase;
     private Uri imageUri=null;
     private StorageTask uploadTask;
 
@@ -49,7 +46,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
     ImageView img_profile;
     Child child;
 
-    private String updatedimageUrl;
+    private String updatedimageUrl = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +86,10 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
 
     void initViews(){
         et_fullname = findViewById(R.id.et_fullname_child);
-        et_nickname = findViewById(R.id.et_nickname_child);
-        et_age = findViewById(R.id.et_age_child);
+        et_nickname = findViewById(R.id.et_email_user);
+        et_age = findViewById(R.id.et_password);
         et_nationality = findViewById(R.id.et_nationality_child);
-        et_religion = findViewById(R.id.et_religious_child);
+        et_religion = findViewById(R.id.et_gender);
         et_fatheremail = findViewById(R.id.et_father_email);
         et_motheremail = findViewById(R.id.et_mother_email);
 
@@ -133,6 +130,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
 
 
     private void uploadImage(){
+
         if(imageUri != null){
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
                     +"."+getFileExtension(imageUri));
@@ -153,10 +151,11 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-                        String updatedimageUrl = downloadUri.toString();
+                        updatedimageUrl = downloadUri.toString();
                         //databaseReference = FirebaseDatabase.getInstance().getReference("child");
                         mdatabase.child(child.getChildId()).child("imageURL").setValue(updatedimageUrl);
                         Log.d(TAG, "onComplete: Download URL - "+updatedimageUrl);
+
                         Toast.makeText(DisplayChildProfileActivity.this, "Upload Image Successful", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(DisplayChildProfileActivity.this, "Upload Image Failed", Toast.LENGTH_SHORT).show();
@@ -168,32 +167,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
                     Toast.makeText(DisplayChildProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-            /*
-            uploadTask.continueWith(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if(!task.isSuccessful()){
-                        throw task.getException();
-                    }
-                    return fileReference.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()){
-                        Uri downloadUri = task.getResult();
-                        updatedimageUrl = downloadUri.toString();
-                    } else{
-                        Toast.makeText(DisplayChildProfileActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(DisplayChildProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            */
+
         }else{
             Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
         }
@@ -234,8 +208,7 @@ public class DisplayChildProfileActivity extends AppCompatActivity {
             imageUri = data.getData();
             Log.d(TAG, "onActivityResult: imageUri: "+imageUri);
             uploadImage();
+            Glide.with(this).load(child.getImageURL()).into(img_profile);
         }
     }
-
-
 }

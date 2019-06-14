@@ -1,5 +1,6 @@
 package com.example.anonymous.childcareadminapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,14 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import static android.support.v4.view.GravityCompat.*;
 
 public class AdminActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private static final String TAG = "AdminActivity";
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_admin);
         setSupportActionBar(toolbar);
@@ -33,6 +41,11 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_admin);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment f = new HomeAdminFragment();
+        ft.replace(R.id.content_admin, f);
+        ft.commit();
     }
 
     @Override
@@ -63,6 +76,12 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if(id == R.id.logout){
+            mAuth.signOut();
+            startActivity(new Intent(AdminActivity.this, LoginActivity.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,6 +115,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             ft.replace(R.id.content_admin, fragment);
             ft.commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_admin_layout);
         drawer.closeDrawer(GravityCompat.START);

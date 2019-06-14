@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,17 +14,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     private EditText inputEmail,inputPassword;
     private Button btn_Login,btn_Register,btn_Reset;
     private TextView tv_NameErr,tv_PassErr;
     private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
     private ProgressBar progressBar;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +55,10 @@ public class LoginActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
-
             finish();
         }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         inputEmail = findViewById(R.id.et_id);
         inputPassword = findViewById(R.id.et_Password);
@@ -85,9 +108,51 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    final String userid = auth.getCurrentUser().getUid();
+                                    Query query = mDatabase.orderByChild("userid")
+                                            .equalTo(userid);
+
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                Log.d(TAG, "onDataChange: datasnapshot -  "+dataSnapshot);
+                                                user = dataSnapshot.child(userid).getValue(User.class);
+
+                                                Log.d(TAG, "onDataChange: "+user.getStatus());
+                                                Log.d(TAG, "onDataChange: "+user.getAdmin());
+
+                                                Boolean status = user.getStatus();
+                                                Boolean admin = user.getAdmin();
+
+                                                if(status) {
+                                                    if (admin) {
+                                                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        Intent intent = new Intent(LoginActivity.this, MainClientActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }
+                                                else{
+                                                    Toast.makeText(LoginActivity.this, "Registered But Not Authorized User", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                            }
+                                            else{
+                                                Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_LONG).show();
+                                                Log.d(TAG, "onDataChange: datasnapshot - "+dataSnapshot);
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -112,7 +177,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 }

@@ -20,11 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Anonymous on 6/4/2019.
@@ -50,14 +47,14 @@ public class AddChildAdminFragment extends Fragment {
         databaseReference = database.getReference();
 
         et_fullname = view.findViewById(R.id.et_fullname_child);
-        et_nickname = view.findViewById(R.id.et_nickname_child);
-        et_age = view.findViewById(R.id.et_age_child);
+        et_nickname = view.findViewById(R.id.et_email_user);
+        et_age = view.findViewById(R.id.et_password);
         et_nationality = view.findViewById(R.id.et_nationality_child);
-        et_religion = view.findViewById(R.id.et_religious_child);
+        et_religion = view.findViewById(R.id.et_gender);
         et_fatheremail = view.findViewById(R.id.et_father_email);
         et_motheremail = view.findViewById(R.id.et_mother_email);
 
-        Button btn_register = view.findViewById(R.id.btn_add_child);
+        Button btn_register = view.findViewById(R.id.btn_login);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
 

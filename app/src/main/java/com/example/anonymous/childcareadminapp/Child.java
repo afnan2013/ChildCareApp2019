@@ -107,6 +107,10 @@ public class Child implements Serializable{
     @Exclude
     public Map<String, Object> toMapEntry(){
         HashMap<String, Object> result = new HashMap<>();
+        HashMap<String,Object> dailyValue = new HashMap<>();
+        dailyValue.put("meal", "no");
+        dailyValue.put("temperature", "no");
+
         result.put("childId", this.ChildId);
         result.put("fullname", this.Fullname);
         result.put("entryid", this.Entryid);
@@ -114,6 +118,9 @@ public class Child implements Serializable{
         result.put("leavetime", this.Leavetime);
         result.put("entrydate", this.Entrydate);
         result.put("status", this.Status);
+        result.put("morning", dailyValue);
+        result.put("noon", dailyValue);
+        result.put("night", dailyValue);
         return result;
     }
 

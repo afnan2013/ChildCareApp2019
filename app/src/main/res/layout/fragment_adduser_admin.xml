@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin">
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    >
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -28,7 +29,7 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/et_fullname_child"
+        android:id="@+id/et_fullname_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
@@ -36,11 +37,11 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_above="@+id/et_nickname_child"
+        android:layout_above="@+id/et_email_user"
         android:layout_toEndOf="@+id/progressBar2" />
 
     <EditText
-        android:id="@+id/et_nickname_child"
+        android:id="@+id/et_email_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
@@ -48,11 +49,11 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_above="@+id/et_age_child"
+        android:layout_above="@+id/et_password"
         android:layout_toEndOf="@+id/progressBar2" />
 
     <EditText
-        android:id="@+id/et_age_child"
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
@@ -60,7 +61,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_above="@+id/et_religious_child"
+        android:layout_above="@+id/et_gender"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -76,7 +77,7 @@
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/et_religious_child"
+        android:id="@+id/et_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
@@ -109,13 +110,13 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_marginBottom="21dp"
-        android:layout_above="@+id/btn_add_child"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/btn_login"
+        android:layout_toEndOf="@+id/progressBar2"
+        android:layout_marginBottom="11dp" />
 
 
     <Button
-        android:id="@+id/btn_add_child"
+        android:id="@+id/btn_login"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,12 +124,9 @@
         android:text="@string/action_sign_in_short"
         android:textColor="@android:color/white"
         android:textStyle="bold"
+        android:layout_marginBottom="39dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp" />
+        android:layout_alignParentStart="true" />
 
     <!-- Link to Login Screen -->
-
-
-
 </RelativeLayout>

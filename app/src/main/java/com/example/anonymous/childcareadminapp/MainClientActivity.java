@@ -3,6 +3,8 @@ package com.example.anonymous.childcareadminapp;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,14 +25,6 @@ public class MainClientActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,12 +73,13 @@ public class MainClientActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        Fragment fragment = null;
+        if (id == R.id.nav_notification) {
+            fragment = new ParentNotificationFragment();
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -92,6 +87,19 @@ public class MainClientActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }
+
+        //replacing the fragment
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_main_client, fragment);
+            ft.commit();
+        }
+        else{
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Fragment f = new ParentNotificationFragment();
+            ft.replace(R.id.content_main_client, f);
+            ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

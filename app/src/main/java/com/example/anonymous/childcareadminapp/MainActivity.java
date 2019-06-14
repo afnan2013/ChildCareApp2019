@@ -36,12 +36,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 200);
         }
-
-
-
 
         cameraView = (SurfaceView) findViewById(R.id.cameraView);
         cameraView.setZOrderMediaOverlay(true);
@@ -101,4 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }}
+        */
+    }
+}
