@@ -37,6 +37,7 @@ public class EntryChildAdminFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ChildQRCodeScanActivity.class);
+                intent.putExtra("activity", "entry");
                 startActivity(intent);
             }
         });

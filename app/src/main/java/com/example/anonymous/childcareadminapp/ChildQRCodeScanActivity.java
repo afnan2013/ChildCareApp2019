@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,12 +47,16 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
     ZXingScannerView mscannerView;
     private Child child;
     DatabaseReference databaseReference;
+    FirebaseAuth mAuth;
+    String checkActivity, idchild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_qrcode_scan);
-
+        Intent intent = getIntent();
+        checkActivity = intent.getExtras().getString("activity");
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -76,74 +81,95 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result ");
         builder.setMessage("Validating Child....");
-        final String idchild = rawResult.getText().substring(4,24);
+        idchild = rawResult.getText().substring(4,24);
         //setContentView(R.layout.activity_child_qrcode_scan);
-
-        Query query = FirebaseDatabase.getInstance().getReference("child")
-                .orderByChild("childId")
-                .equalTo(idchild);
-
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Log.d(TAG, "onDataChange: datasnapshot -  "+dataSnapshot);
-                    Toast.makeText(ChildQRCodeScanActivity.this, "Child Found", Toast.LENGTH_SHORT).show();
-                    child = dataSnapshot.child(idchild).getValue(Child.class);
-
-                    Log.d(TAG, "onDataChange: "+child.getChildId());
-                    Log.d(TAG, "onDataChange: "+child.getAge());
-
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String key_entry = databaseReference.child("entrys").push().getKey();
-
-                    //child entry in entry table
-                    DateFormat df = new SimpleDateFormat("HH:mm");
-                    String currenttime = df.format(Calendar.getInstance().getTime());
-                    String cuurentdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                    Child entryChild = new Child(child.getChildId(), child.getFullname(),  key_entry, currenttime , "INCARE", cuurentdate, true);
-                    Map<String, Object> entryValues = entryChild.toMapEntry();
-
-                    //String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                    //String key_date = databaseReference.child("dates").child(date).push().getKey();
-                    //Map<String, Object> dateValues = new HashMap<>();
-                    //dateValues.put("id", key_date);
-                    //dateValues.put("entryid", key_entry);
-                    //dateValues.put("childid", child.getChildId());
+        if(checkActivity.equals("entry")) {
+            Query query = FirebaseDatabase.getInstance().getReference("child")
+                    .orderByChild("childId")
+                    .equalTo(idchild);
 
 
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/entrys/"+ key_entry, entryValues);
-                    //childUpdates.put("/dates/" + date + "/" + key_date, dateValues);
-                    databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            query.addValueEventListener(valueEventListener);
+        }
+        else{
+            String userid = mAuth.getCurrentUser().getUid();
+            databaseReference.child("users").child(userid).child("childid").setValue(idchild)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(ChildQRCodeScanActivity.this, "Child Entry Successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ChildQRCodeScanActivity.this, "Child Matching Successful", Toast.LENGTH_LONG).show();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ChildQRCodeScanActivity.this, "Error in Entry", Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(ChildQRCodeScanActivity.this, "Child not Found", Toast.LENGTH_LONG).show();
                         }
                     });
 
-                }
-                else{
-                    Toast.makeText(ChildQRCodeScanActivity.this, "Child not found", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "onDataChange: datasnapshot - "+dataSnapshot);
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        query.addValueEventListener(valueEventListener);
+        }
         setContentView(R.layout.activity_child_qrcode_scan);
         //mscannerView.resumeCameraPreview(this);
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+                Log.d(TAG, "onDataChange: datasnapshot -  "+dataSnapshot);
+                Toast.makeText(ChildQRCodeScanActivity.this, "Child Found", Toast.LENGTH_SHORT).show();
+                child = dataSnapshot.child(idchild).getValue(Child.class);
+
+                Log.d(TAG, "onDataChange: "+child.getChildId());
+                Log.d(TAG, "onDataChange: "+child.getAge());
+
+
+                String key_entry = databaseReference.child("entrys").push().getKey();
+
+                //child entry in entry table
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                String currenttime = df.format(Calendar.getInstance().getTime());
+                String cuurentdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                Child entryChild = new Child(child.getChildId(), child.getFullname(),  key_entry, currenttime , "INCARE", cuurentdate, true);
+                Map<String, Object> entryValues = entryChild.toMapEntry();
+
+                //String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                //String key_date = databaseReference.child("dates").child(date).push().getKey();
+                //Map<String, Object> dateValues = new HashMap<>();
+                //dateValues.put("id", key_date);
+                //dateValues.put("entryid", key_entry);
+                //dateValues.put("childid", child.getChildId());
+
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/entrys/"+ key_entry, entryValues);
+                //childUpdates.put("/dates/" + date + "/" + key_date, dateValues);
+                databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Child Entry Successful", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Error in Entry", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+            }
+            else{
+                Toast.makeText(ChildQRCodeScanActivity.this, "Child not found", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onDataChange: datasnapshot - "+dataSnapshot);
+
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
 
     private boolean isWriteStoragePermissionGranted() {
         boolean returnValue = false;

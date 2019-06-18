@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/et_fullname_user"
+        android:id="@+id/et_fullname_child"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
