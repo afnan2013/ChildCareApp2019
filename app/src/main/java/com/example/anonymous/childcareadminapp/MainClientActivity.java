@@ -22,7 +22,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +35,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainClientActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +45,8 @@ public class MainClientActivity extends AppCompatActivity
 
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
+    String ChildId;
+    String text="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +75,8 @@ public class MainClientActivity extends AppCompatActivity
         ft.commit();
 
         String userid = mAuth.getCurrentUser().getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(userid).child("childid");
-        mDatabase.addValueEventListener(valueEventListener);
+        Query query = FirebaseDatabase.getInstance().getReference("users").child(userid).child("childid");
+        query.addValueEventListener(valueEventListener);
 
     }
 
@@ -76,6 +85,11 @@ public class MainClientActivity extends AppCompatActivity
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()){
                 Log.d(TAG, "onDataChange: "+dataSnapshot.getValue());
+                ChildId = dataSnapshot.getValue(String.class);
+                Query queryStatus = FirebaseDatabase.getInstance().getReference("entrys")
+                        .orderByChild("status")
+                        .equalTo(true);
+                queryStatus.addValueEventListener(valueEventListener1);
             }
             else{
                 Log.d(TAG, "onDataChange: You are not match with your children");
@@ -154,12 +168,12 @@ public class MainClientActivity extends AppCompatActivity
         return true;
     }
 
-    private void addNotification() {
+    private void addNotification(String Title, String Text) {
         // Builds your notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("John's Android Studio Tutorials")
-                .setContentText("A video has just arrived!");
+                .setContentTitle(Title)
+                .setContentText(Text);
 
         // Creates the intent needed to show the notification
         Intent notificationIntent = new Intent(this, MainClientActivity.class);
@@ -170,4 +184,93 @@ public class MainClientActivity extends AppCompatActivity
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
     }
+
+    ValueEventListener valueEventListener1 = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if(dataSnapshot.exists()){
+                Log.d(TAG, "onDataChange: QueryStatus "+ dataSnapshot);
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    Log.d(TAG, "onDataChange: First Child Id: " + snapshot);
+                    Child child = snapshot.getValue(Child.class);
+                    Log.d(TAG, "onDataChange: First Child Value: " + child.getStatus());
+                    if (ChildId.equals(child.getChildId())) {
+                        boolean flag=false;
+                        Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
+                        Map<String, Object> morning = (Map<String, Object>) data.get("morning");
+                        Map<String, Object> noon = (Map<String, Object>) data.get("noon");
+                        Map<String, Object> night = (Map<String, Object>) data.get("night");
+                        Log.d(TAG, "onDataChange: " + data.get("status"));
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        String morning_meal = morning.get("meal").toString();
+                        String noon_meal = noon.get("meal").toString();
+                        String night_meal = night.get("meal").toString();
+
+                        String morning_temp = morning.get("temperature").toString();
+                        String noon_temp = noon.get("temperature").toString();
+                        String night_temp = night.get("temperature").toString();
+                        //morning
+                        if(morning_meal.equals("ok")){
+                            morning.put("meal", "notify");
+                            flag = true;
+                            text = "Morning meal done";
+                        }
+                        if(morning_temp.equals("ok")){
+                            morning.put("temperature", "notify");
+                            flag = true;
+                            text = "Morning temperature done";
+                        }
+                        //noon
+                        if(noon_meal.equals("ok")){
+                            noon.put("meal", "notify");
+                            flag = true;
+                            text = "Noon meal done";
+                        }
+                        if(noon_temp.equals("ok")){
+                            noon.put("temperature", "notify");
+                            flag = true;
+                            text = "Noon temperature done";
+                        }
+                        //night
+                        if(night_meal.equals("ok")){
+                            night.put("meal", "notify");
+                            flag = true;
+                            text = "Night meal done";
+                        }
+                        if(night_temp.equals("ok")){
+                            night.put("temperature", "notify");
+                            flag = true;
+                            text = "Night temperature done";
+                        }
+
+                        if(flag){
+                            childUpdates.put("/entrys/"+child.getEntryid()+"/morning", morning);
+                            childUpdates.put("/entrys/"+child.getEntryid()+"/noon", noon);
+                            childUpdates.put("/entrys/"+child.getEntryid()+"/night", night);
+                            mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d(TAG, "onComplete: notification text"+ text);
+                                    addNotification("ChildCareApp", text);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+
+
 }
