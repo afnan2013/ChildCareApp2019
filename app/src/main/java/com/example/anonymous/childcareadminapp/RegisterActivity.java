@@ -1,7 +1,6 @@
 package com.example.anonymous.childcareadminapp;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = (Button) findViewById(R.id.btn_register);
 
         inputName = (EditText) findViewById(R.id.et_fullname_user);
-        inputEmail = (EditText) findViewById(R.id.et_email_user);
+        inputEmail = (EditText) findViewById(R.id.et_useremail);
         inputPassword = (EditText) findViewById(R.id.et_password);
         inputRadioMale = (RadioButton) findViewById(R.id.btnradio_male);
         inputRadioFemale = (RadioButton) findViewById(R.id.btnradio_female);

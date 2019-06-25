@@ -149,6 +149,7 @@ public class MainClientActivity extends AppCompatActivity
             fragment = new ParentNotificationFragment();
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
+            fragment = new DisplayUserProfileFragment();
 
         } else if (id == R.id.nav_about) {
 

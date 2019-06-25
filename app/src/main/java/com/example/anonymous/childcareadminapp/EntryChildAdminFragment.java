@@ -31,7 +31,6 @@ public class EntryChildAdminFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         btn_entry = view.findViewById(R.id.btn_entry_child);
-        btn_exit = view.findViewById(R.id.btn_leave_child);
 
         btn_entry.setOnClickListener(new View.OnClickListener() {
             @Override

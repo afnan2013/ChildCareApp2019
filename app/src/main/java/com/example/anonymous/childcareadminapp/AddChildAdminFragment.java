@@ -54,7 +54,7 @@ public class AddChildAdminFragment extends Fragment {
         databaseReference = database.getReference();
 
         et_fullname = view.findViewById(R.id.et_fullname_child);
-        et_nickname = view.findViewById(R.id.et_email_user);
+        et_nickname = view.findViewById(R.id.et_useremail);
         et_age = view.findViewById(R.id.et_password);
         et_nationality = view.findViewById(R.id.et_nationality_child);
         et_religion = view.findViewById(R.id.et_gender);

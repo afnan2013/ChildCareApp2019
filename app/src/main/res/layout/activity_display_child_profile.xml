@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
-    tools:context="com.example.anonymous.childcareadminapp.DisplayChildProfileActivity">
+    android:layout_margin="@dimen/activity_horizontal_margin">
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -37,11 +36,11 @@
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_above="@+id/et_email_user"
+        android:layout_above="@+id/et_useremail"
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/et_email_user"
+        android:id="@+id/et_useremail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
@@ -50,7 +49,7 @@
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:layout_above="@+id/et_password"
-        android:layout_toEndOf="@+id/progressBar2" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/et_password"

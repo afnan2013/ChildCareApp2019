@@ -55,4 +55,7 @@
     <string name="religion">Religion</string>
     <string name="fatheremail">Fathers email</string>
     <string name="motheremail">Mothers email</string>
+
+    <string name="Entry">Please click the button to entry of a child.
+    </string>
 </resources>

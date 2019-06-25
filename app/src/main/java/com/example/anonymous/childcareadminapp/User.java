@@ -1,6 +1,10 @@
 package com.example.anonymous.childcareadminapp;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Anonymous on 6/11/2019.
@@ -26,6 +30,18 @@ public class User implements Serializable{
         Admin = admin;
     }
 
+    public User(String username, String email){
+        Username = username;
+        Email = email;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("username", this.Username);
+        result.put("email", this.Email);
+        return result;
+    }
 
     public String getUserid() {
         return Userid;
