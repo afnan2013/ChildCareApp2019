@@ -2,23 +2,16 @@ package com.example.anonymous.childcareadminapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -90,7 +83,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildHolder>
 
         public ChildHolder(@NonNull View itemView) {
             super(itemView);
-            tx_name = (TextView) itemView.findViewById(R.id.tv_child_fullname);
+            tx_name = (TextView) itemView.findViewById(R.id.tv_parent_fullname);
             tx_entry_time = (TextView) itemView.findViewById(R.id.tv_entry_time);
             tx_left_time = (TextView) itemView.findViewById(R.id.tv_left_time);
             img_status = (ImageView) itemView.findViewById(R.id.img_status_child);

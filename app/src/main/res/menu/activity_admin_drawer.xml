@@ -32,6 +32,15 @@
                 android:id="@+id/nav_all_accounts"
                 android:icon="@drawable/ic_all_accounts"
                 android:title="@string/m_all_accounts" />
+            <item
+                android:id="@+id/nav_verify_user"
+                android:icon="@drawable/ic_verifiy_accounts"
+                android:title="Verify Parent Accounts" />
+            <item
+                android:id="@+id/nav_verify_admin"
+                android:icon="@drawable/ic_verifiy_accounts"
+                android:title="Verify Admin Account"/>
+
         </menu>
     </item>
 

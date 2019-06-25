@@ -106,7 +106,10 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             fragment = new AddChildAdminFragment();
         } else if (id == R.id.nav_all_accounts) {
             fragment = new AllAccountsAdminFragment();
-
+        } else if(id == R.id.nav_verify_user){
+            fragment = new UserVerfiyAdminFragment();
+        } else if(id == R.id.nav_verify_admin){
+            fragment = new AdminVerifyFragment();
         }
 
         //replacing the fragment

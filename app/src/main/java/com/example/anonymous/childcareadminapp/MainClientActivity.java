@@ -130,6 +130,11 @@ public class MainClientActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if(id == R.id.logout){
+            mAuth.signOut();
+            startActivity(new Intent(MainClientActivity.this, LoginActivity.class));
+            finish();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -147,7 +152,8 @@ public class MainClientActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_pair_child) {
+            fragment = new PairChildFragment();
 
         } else if (id == R.id.nav_share) {
 

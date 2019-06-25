@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_margin="10dp"
-    android:id="@+id/child_list_row">
+    android:id="@+id/parent_list_row">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,9 +30,22 @@
             android:id="@+id/tv_joined_date"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_toRightOf="@id/tv_parent_fullname"
             android:gravity="center"
-            android:text="joined date" />
+            android:text="joined date"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/tv_parent_fullname" />
+
+        <Button
+            android:id="@+id/btn_view_parent"
+            style="?android:textAppearanceButton"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignBaseline="@+id/tv_serial"
+            android:layout_alignBottom="@+id/tv_serial"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/tv_joined_date"
+            android:gravity="center"
+            android:text="Accept" />
 
         <TextView
             android:id="@+id/tv_parent_email"
@@ -41,7 +54,7 @@
             android:layout_below="@+id/tv_parent_fullname"
             android:layout_toEndOf="@+id/tv_serial"
             android:gravity="center"
-            android:text="Child Id" />
+            android:text="Parent Email Id" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -57,6 +57,7 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
         Intent intent = getIntent();
         checkActivity = intent.getExtras().getString("activity");
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
     }
 
@@ -83,6 +84,7 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
         builder.setMessage("Validating Child....");
         idchild = rawResult.getText().substring(4,24);
         //setContentView(R.layout.activity_child_qrcode_scan);
+        Log.d(TAG, "handleResult: checkActivity"+ checkActivity);
         if(checkActivity.equals("entry")) {
             Query query = FirebaseDatabase.getInstance().getReference("child")
                     .orderByChild("childId")

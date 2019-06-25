@@ -1,10 +1,12 @@
 package com.example.anonymous.childcareadminapp;
 
+import java.io.Serializable;
+
 /**
  * Created by Anonymous on 6/11/2019.
  */
 
-public class User {
+public class User implements Serializable{
 
     private String Userid, Username, Email, Gender, Childid, ImageURL;
     private Boolean Status, Admin;

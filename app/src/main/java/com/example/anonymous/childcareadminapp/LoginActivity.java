@@ -53,9 +53,32 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         auth = FirebaseAuth.getInstance();
 
+
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
-            finish();
+            String userid = auth.getCurrentUser().getUid();
+            mDatabase = FirebaseDatabase.getInstance().getReference("users").child(userid).child("admin");
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        boolean condition = dataSnapshot.getValue(Boolean.class);
+                        if(condition){
+                            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                            finish();
+                        }
+                        else{
+                            startActivity(new Intent(LoginActivity.this, MainClientActivity.class));
+                            finish();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference("users");

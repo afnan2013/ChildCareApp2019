@@ -16,8 +16,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +36,9 @@ public class AddChildAdminFragment extends Fragment {
     ProgressBar progressBar;
 
     DatabaseReference databaseReference;
+    private boolean flag=false;
+
+    private String fullname, nickname, age, nationality, religion, fatheremail, motheremail, date, imageUrl;
 
     @Nullable
     @Override
@@ -63,15 +70,15 @@ public class AddChildAdminFragment extends Fragment {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String fullname = et_fullname.getText().toString().trim();
-                String nickname = et_nickname.getText().toString().trim();
-                String age = et_age.getText().toString().trim();
-                String nationality = et_nationality.getText().toString().trim();
-                String religion = et_religion.getText().toString().trim();
-                String fatheremail = et_fatheremail.getText().toString().trim();
-                String motheremail = et_motheremail.getText().toString().trim();
-                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                String imageUrl = "default";
+                fullname = et_fullname.getText().toString().trim();
+                nickname = et_nickname.getText().toString().trim();
+                age = et_age.getText().toString().trim();
+                nationality = et_nationality.getText().toString().trim();
+                religion = et_religion.getText().toString().trim();
+                fatheremail = et_fatheremail.getText().toString().trim();
+                motheremail = et_motheremail.getText().toString().trim();
+                date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                imageUrl = "default";
 
 
                 if (TextUtils.isEmpty(fullname)) {
@@ -109,29 +116,68 @@ public class AddChildAdminFragment extends Fragment {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                Query query = FirebaseDatabase.getInstance().getReference("child")
+                        .orderByChild("fullname")
+                        .equalTo(fullname);
 
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            Toast.makeText(getActivity(), "Child is Already Registered", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            String key = databaseReference.child("child").push().getKey();
+                            Child child = new Child(key, fullname, nickname, age,
+                                    nationality, religion, fatheremail, motheremail, date, imageUrl);
+                            Log.d("AddChildAdminFragment", "onClick: key :" + key);
+                            if(key != null) {
+                                databaseReference.child("child").child(key).setValue(child)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(getActivity(), "Child Registration Successful", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), "Error! Check your internet connection", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                String key = databaseReference.child("child").push().getKey();
-                Child child = new Child(key, fullname, nickname, age,
-                        nationality, religion, fatheremail, motheremail, date, imageUrl);
-                Log.d("AddChildAdminFragment", "onClick: key :"+key);
-                if(key != null) {
-                    databaseReference.child("child").child(key).setValue(child)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getActivity(), "Child Registration Successful", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getActivity(), "Error! Check your internet connection", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    }
+                });
+                /*
+                if (!flag) {
+                    String key = databaseReference.child("child").push().getKey();
+                    Child child1 = new Child(key, fullname, nickname, age,
+                            nationality, religion, fatheremail, motheremail, date, imageUrl);
+                    Log.d("AddChildAdminFragment", "onClick: key :" + key);
+                    if (key != null) {
+                        databaseReference.child("child").child(key).setValue(child1)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getActivity(), "Child Registration Successful", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), "Error! Check your internet connection", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Child already exists", Toast.LENGTH_SHORT).show();
                 }
-
+                */
                 progressBar.setVisibility(View.GONE);
             }
         });
