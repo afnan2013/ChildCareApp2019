@@ -19,4 +19,5 @@
     <color name="btn_logut_bg">#ff6861</color>
     <color name="btn_done">#8FC463</color>
     <color name="btn_undone">#8FC</color>
+    <color name="background_color">#E9EBEE</color>
 </resources>

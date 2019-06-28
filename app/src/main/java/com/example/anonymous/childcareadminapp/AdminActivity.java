@@ -101,7 +101,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_entry) {
             fragment = new EntryChildAdminFragment();
         } else if(id == R.id.nav_about){
-
+            fragment = new AdminAboutFragment();
         } else if (id == R.id.nav_add_child) {
             fragment = new AddChildAdminFragment();
         } else if (id == R.id.nav_all_accounts) {
@@ -110,6 +110,8 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             fragment = new UserVerfiyAdminFragment();
         } else if(id == R.id.nav_verify_admin){
             fragment = new AdminVerifyFragment();
+        } else if (id == R.id.nav_complain_box){
+            fragment = new ComplainAdminFragment();
         }
 
         //replacing the fragment

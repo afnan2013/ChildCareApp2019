@@ -46,9 +46,10 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
     Button btn_scan_qrcode;
     ZXingScannerView mscannerView;
     private Child child;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, mDatabase;
     FirebaseAuth mAuth;
     String checkActivity, idchild;
+    String Userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +80,7 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
     @Override
     public void handleResult(Result rawResult) {
         Log.d(TAG, "handleResult: "+rawResult.getText());
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result ");
-        builder.setMessage("Validating Child....");
+
         idchild = rawResult.getText().substring(4,24);
         //setContentView(R.layout.activity_child_qrcode_scan);
         Log.d(TAG, "handleResult: checkActivity"+ checkActivity);
@@ -89,29 +88,44 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
             Query query = FirebaseDatabase.getInstance().getReference("child")
                     .orderByChild("childId")
                     .equalTo(idchild);
-
-
             query.addValueEventListener(valueEventListener);
+
         }
-        else{
-            String userid = mAuth.getCurrentUser().getUid();
-            databaseReference.child("users").child(userid).child("childid").setValue(idchild)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(ChildQRCodeScanActivity.this, "Child Matching Successful", Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ChildQRCodeScanActivity.this, "Child not Found", Toast.LENGTH_LONG).show();
-                        }
-                    });
+
+        else if(checkActivity.equals("exit")){
+            child = (Child) getIntent().getSerializableExtra("child");
+            if(!idchild.equals(child.getChildId())){
+                Toast.makeText(ChildQRCodeScanActivity.this, "Invalid ID", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                String currenttime = df.format(Calendar.getInstance().getTime());
+                mDatabase = FirebaseDatabase.getInstance().getReference("entrys").child(child.getEntryid());
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/status", false);
+                childUpdates.put("/leavetime", currenttime);
+                mDatabase.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Child Exit Successful", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Error in Exit", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
+
 
         }
         setContentView(R.layout.activity_child_qrcode_scan);
+        startActivity(new Intent(ChildQRCodeScanActivity.this, AdminActivity.class));
+        finish();
         //mscannerView.resumeCameraPreview(this);
+
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
@@ -150,6 +164,7 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ChildQRCodeScanActivity.this, "Child Entry Successful", Toast.LENGTH_LONG).show();
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -172,22 +187,55 @@ public class ChildQRCodeScanActivity extends AppCompatActivity implements ZXingS
         }
     };
 
+    ValueEventListener valueEventListener1 = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+                Log.d(TAG, "onDataChange: datasnapshot -  "+dataSnapshot);
+                Toast.makeText(ChildQRCodeScanActivity.this, "Child Found", Toast.LENGTH_SHORT).show();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/users/"+checkActivity+"/childid", idchild);
+                //childUpdates.put("/dates/" + date + "/" + key_date, dateValues);
+                databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Child Matching Successful", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChildQRCodeScanActivity.this, "Error in Entry", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+            }
+            else{
+                Toast.makeText(ChildQRCodeScanActivity.this, "Child not found", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onDataChange: datasnapshot - "+dataSnapshot);
+
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     private boolean isWriteStoragePermissionGranted() {
         boolean returnValue = false;
 
         if (Build.VERSION.SDK_INT >= 23){
-                if (checkSelfPermission(ACCESS_CAMERA) == PackageManager.PERMISSION_GRANTED){
-                    returnValue = true;
-                }
-                else {
-                    ActivityCompat.requestPermissions(this,new String []{ACCESS_CAMERA},2);
-                    returnValue = false;
-                }
+            if (checkSelfPermission(ACCESS_CAMERA) == PackageManager.PERMISSION_GRANTED){
+                returnValue = true;
+            }
+            else {
+                ActivityCompat.requestPermissions(this,new String []{ACCESS_CAMERA},2);
+                returnValue = false;
+            }
         }
         else
             returnValue = true;
-
         return returnValue;
     }
 }

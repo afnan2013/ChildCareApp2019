@@ -152,13 +152,12 @@ public class MainClientActivity extends AppCompatActivity
             fragment = new DisplayUserProfileFragment();
 
         } else if (id == R.id.nav_about) {
-
+            fragment = new AdminAboutFragment();
         } else if (id == R.id.nav_pair_child) {
             fragment = new PairChildFragment();
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_complain_parent) {
+            fragment = new ComplainUserFragment();
 
         }
 

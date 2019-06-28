@@ -9,8 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -20,6 +26,7 @@ import java.util.List;
 
 public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapter.ChildProfileHolder>{
 
+    DatabaseReference databaseReference;
     public final static String TAG = "ChildProfileAdapter";
     private List<Child> childs;
     private Context c;
@@ -52,6 +59,25 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
         Log.d(TAG, "onBindViewHolder: "+currentNote.getFullname());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getDate());
         Log.d(TAG, "onBindViewHolder: "+currentNote.getChildId());
+
+        childProfileHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference =  FirebaseDatabase.getInstance().getReference("child").child(currentNote.getChildId());
+                //Toast.makeText(getActivity(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                databaseReference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(c, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(c, "error!! Check your Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         childProfileHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +112,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
     class ChildProfileHolder extends RecyclerView.ViewHolder {
         private TextView tx_serial, tx_name, tx_joined_date, tx_childid;
         private CardView cardView;
+        private Button btn_delete;
 
 
         public ChildProfileHolder(@NonNull View itemView) {
@@ -95,6 +122,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
             tx_joined_date = (TextView) itemView.findViewById(R.id.tv_joined_date);
             tx_childid = (TextView) itemView.findViewById(R.id.tv_parent_email);
             cardView= (CardView) itemView.findViewById(R.id.child_list_row);
+            btn_delete = (Button) itemView.findViewById(R.id.btn_delete_child);
 
         }
 

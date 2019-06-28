@@ -109,7 +109,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_below="@+id/et_password"
-        android:layout_toEndOf="@+id/et_gender" />
+        android:layout_toEndOf="@+id/btnradio_admin"
+        android:onClick="radioClickedMale"/>
 
     <RadioButton
         android:id="@+id/btnradio_female"
@@ -117,7 +118,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/et_password"
         android:layout_toRightOf="@+id/btnradio_male"
-        android:text="Female" />
+        android:text="Female"
+        android:onClick="radioClicledFemale"/>
 
     <RadioButton
         android:id="@+id/btnradio_admin"
@@ -128,7 +130,8 @@
         android:layout_marginTop="14dp"
         android:paddingRight="10dp"
         android:layout_toEndOf="@+id/progressBar2"
-        android:text="Admin" />
+        android:text="Admin"
+        android:onClick="radioClickedAdmin"/>
 
     <TextView
         android:id="@+id/textView6"

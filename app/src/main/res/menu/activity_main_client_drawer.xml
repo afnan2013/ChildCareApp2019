@@ -18,19 +18,11 @@
             android:id="@+id/nav_pair_child"
             android:icon="@drawable/ic_menu_manage"
             android:title="Pair Child" />
-    </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_complain_parent"
+            android:icon="@drawable/ic_complain"
+            android:title="Complain Box" />
+    </group>
 
 </menu>

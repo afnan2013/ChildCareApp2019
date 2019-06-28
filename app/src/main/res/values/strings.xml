@@ -56,6 +56,13 @@
     <string name="fatheremail">Fathers email</string>
     <string name="motheremail">Mothers email</string>
 
-    <string name="Entry">Please click the button to entry of a child.
-    </string>
+    <string name="Entry">Please click the button to entry of a child.</string>
+
+    <!--About Admin App-->
+    <string name="app_info">Child Care Application</string>
+    <string name="menu_info">Click the Menu. You will find all you need.</string>
+    <string name="logout_info">You can logout your account on the left dropdown menu</string>
+    <string name="pair_info">Before doing anything, you have to pair with your child</string>
+
+
 </resources>

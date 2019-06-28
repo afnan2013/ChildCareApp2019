@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,4 +148,12 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
+    public void radioClickedMale(View view) {
+            inputRadioFemale.setChecked(false);
+    }
+
+
+    public void radioClicledFemale(View view) {
+            inputRadioMale.setChecked(false);
+    }
 }

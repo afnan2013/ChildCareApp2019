@@ -44,7 +44,7 @@ public class PairChildFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
-        String userid = mAuth.getCurrentUser().getUid();
+        final String userid = mAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userid).child("childid");
 
         btn_pair = (Button) view.findViewById(R.id.btn_pair_child);
@@ -59,8 +59,8 @@ public class PairChildFragment extends Fragment {
                     Toast.makeText(getActivity(), "Already paired", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intent = new Intent(getActivity(), ChildQRCodeScanActivity.class);
-                    intent.putExtra("activity", "pair");
+                    Intent intent = new Intent(getActivity(), PairQRCodeScanActivity.class);
+                    intent.putExtra("activity", userid);
                     startActivity(intent);
                 }
             }
