@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "107268695143",
-    "firebase_url": "https://childcareadminapp.firebaseio.com",
-    "project_id": "childcareadminapp",
-    "storage_bucket": "childcareadminapp.appspot.com"
+    "project_number": "806576051871",
+    "firebase_url": "https://childcareapp-10bc9.firebaseio.com",
+    "project_id": "childcareapp-10bc9",
+    "storage_bucket": "childcareapp-10bc9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:107268695143:android:22683ba8b40c4f3f",
+        "mobilesdk_app_id": "1:806576051871:android:210f382e2684d1e1",
         "android_client_info": {
-          "package_name": "com.example.anonymous.childcareadminapp"
+          "package_name": "com.example.childcareapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "107268695143-aco9pp13st41330vhs71ccshsufm1fj2.apps.googleusercontent.com",
+          "client_id": "806576051871-o74hkimc45mb8q786mnj72pv1ai9bvf9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.anonymous.childcareadminapp",
+            "package_name": "com.example.childcareapp",
             "certificate_hash": "b51fc1cf9cc45ba5884b9b61e4e13668f3b59ead"
           }
         },
         {
-          "client_id": "107268695143-kpr6f8lqggum1gg5us81j5dupg25dto0.apps.googleusercontent.com",
+          "client_id": "806576051871-1u2st7b2guh45igopcucpulgc3vfeiv5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCn8v-py1zMuQi-1QZ0RYIq1l9b6Gy_FqY"
+          "current_key": "AIzaSyBkY6gUBxtwmaA9Bbs5B3K2LZQP9imhh0c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "107268695143-kpr6f8lqggum1gg5us81j5dupg25dto0.apps.googleusercontent.com",
+              "client_id": "806576051871-1u2st7b2guh45igopcucpulgc3vfeiv5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

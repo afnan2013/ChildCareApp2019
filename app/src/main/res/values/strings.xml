@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"  ChildCareAdminApp"</string>
+    <string name="app_name">"  ChildCareApp"</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="action_sign_in_short">Register</string>
@@ -63,6 +63,10 @@
     <string name="menu_info">Click the Menu. You will find all you need.</string>
     <string name="logout_info">You can logout your account on the left dropdown menu</string>
     <string name="pair_info">Before doing anything, you have to pair with your child</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>
